@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Compress *.log files not changed in more than one day(1440 minutes):
+find <%= @path %> -type f -mmin +1440 -name "*.log" -exec bzip2 '{}' \; 

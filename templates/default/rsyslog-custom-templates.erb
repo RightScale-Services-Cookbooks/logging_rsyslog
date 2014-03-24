@@ -1,0 +1,12 @@
+<% if not @allowed.nil? %>
+$AllowedSender UDP, <%= @allowed %>
+$AllowedSender TCP, <%= @allowed %>
+<% end %>
+
+$template RemoteHostsMessages,"<%= @path %>/%$YEAR%/%$MONTH%/%$DAY%/messages/%HOSTNAME%.log"
+$template RemoteHostsApache,  "<%= @path %>/%$YEAR%/%$MONTH%/%$DAY%/%HOSTNAME%.log"
+
+if ($programname == 'httpd') then -?RemoteHostsApache
+& ~
+*.* -?RemoteHostsMessages
+& ~
