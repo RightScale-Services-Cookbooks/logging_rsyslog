@@ -23,6 +23,10 @@ recipe "logging_rsyslog::add_custom_templates",
 recipe "logging_rsyslog::add_compress_logs_cronjob",
   "Add cronjob to compress files older than a day"
 
+attribute "logging_rsyslog",
+  :display_name => "Rsyslog attributes",
+  :type => "hash"
+
 attribute "logging_rsyslog/allowed_senders",
   :display_name => "Allowed rsyslog senders",
   :description =>  "TODO",
