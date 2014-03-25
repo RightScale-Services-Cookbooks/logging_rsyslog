@@ -27,4 +27,3 @@ attribute "logging_rsyslog/allowed_senders",
   :description =>  "TODO",
   :required => "optional",
   :recipes => [ "logging_rsyslog::add_custom_templates" ]
-                                          ]
