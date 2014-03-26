@@ -4,10 +4,10 @@
 
 rightscale_marker :begin
 
-if (node[:logging_rsyslog])
-  log "*** node[:logging_rsyslog] is defined"
-else
-  log "*** node[:logging_rsyslog] is undefined"
+log "*** in recipe: logging_rsyslog::add_custom_templates"
+
+if (!node[:logging_rsyslog])
+  #to avoid exception when node[:logging_rsyslog][:allowed_senders] is undefined
   node[:logging_rsyslog]={}
 end
 
