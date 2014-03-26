@@ -4,6 +4,14 @@
 
 rightscale_marker :begin
 
+if (node[:logging_rsyslog])
+  log "*** node[:logging_rsyslog] is defined"
+else
+  log "*** node[:logging_rsyslog] is undefined"
+  node[:logging_rsyslog]={}
+end
+
+
 # Deploy custom filters and restart service
 template "/etc/rsyslog.d/20-custom-templates.conf" do
   source "rsyslog-custom-templates.erb"
