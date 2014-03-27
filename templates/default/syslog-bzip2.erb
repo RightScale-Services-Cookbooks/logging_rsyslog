@@ -1,4 +1,16 @@
-#!/bin/bash
+#!/bin/bash -e
 
-# Compress *.log files not changed in more than one day(1440 minutes):
-find <%= @path %> -type f -mmin +1440 -name "*.log" -exec bzip2 '{}' \; 
+syslog_path="<%= @path %>"
+echo "*** $0 started on: $(date)"
+day=$(date +%d)
+
+# Compress old *.log files as we move to a new day
+find $syslog_path -type f -name "*.log" | while read file_path; do
+  mday=$(date +%d -d "$(stat -c %y $file_path)")
+  if [ "$day" != "$mday" ]; then
+    echo "*** Zipping $file_path"
+    cd $(dirname $file_path)
+    file=$(basename $file_path)
+    zip -m -r "$file.zip" "$file"
+  fi
+done
