@@ -4,13 +4,19 @@ syslog_path="<%= @path %>"
 echo "*** $0 started on: $(date)"
 day=$(date +%d)
 
-# Compress old *.log files as we move to a new day
-find $syslog_path -type f -name "*.log" | while read file_path; do
+# Expects this folder structure $syslog_path/YYYY/MM/DD/{HOSTNAME}/
+ls -d $syslog_path/*/*/*/* | grep -v '\.zip$' | while read file_path; do
   mday=$(date +%d -d "$(stat -c %y $file_path)")
   if [ "$day" != "$mday" ]; then
+    # Compress old logs as we moved to a new day
     echo "*** Zipping $file_path"
     cd $(dirname $file_path)
     file=$(basename $file_path)
     zip -m -r "$file.zip" "$file"
+  else
+    echo "*** Not zipping $file_path yet"
   fi
 done
+
+
+
