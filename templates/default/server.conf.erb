@@ -21,3 +21,6 @@ $InputRELPServerRun 514
 $ModLoad imrelp
 $InputRELPServerRun 515 # Listening to stunnel
 <% end %>
+
+# avoid escaping the control characters from the Windows logs
+$EscapeControlCharactersOnReceive off
