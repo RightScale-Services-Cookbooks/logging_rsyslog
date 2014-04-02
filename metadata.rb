@@ -32,3 +32,90 @@ attribute "logging_rsyslog/allowed_senders",
   :description =>  "TODO",
   :required => "optional",
   :recipes => [ "logging_rsyslog::add_custom_templates" ]
+
+# == Backup attributes
+#
+attribute "logging_rsyslog/backup",
+  :display_name => "Backup settings for rsyslog backups.",
+  :type => "hash"
+
+attribute "logging_rsyslog/backup/storage_account_provider",
+  :display_name => "Rsyslog Backup Storage Account Provider",
+  :description =>
+    "Location where the backup files will be saved." +
+    " Used by backup recipe to back up to Remote Object Storage" +
+    " (complete list of supported storage locations is in input dropdown)." +
+    " Example: s3",
+  :required => "required",
+  :choice => [
+    "s3",
+    "Cloud_Files",
+    "Cloud_Files_UK",
+    "google",
+    "azure",
+    "swift",
+    "SoftLayer_Dallas",
+    "SoftLayer_Singapore",
+    "SoftLayer_Amsterdam"
+  ],
+  :recipes => [
+    "logging_rsyslog::backup_logs",
+    "logging_rsyslog::backup_logs_schedule_enable"
+  ]
+
+attribute "logging_rsyslog/backup/storage_account_id",
+  :display_name => "Rsyslog Backup Storage Account ID",
+  :description =>
+    "In order to write the backup files to the specified cloud storage location," +
+    " you need to provide cloud authentication credentials." +
+    " For Amazon S3, use your Amazon access key ID" +
+    " (e.g., cred:AWS_ACCESS_KEY_ID). For Rackspace Cloud Files, use your" +
+    " Rackspace login username (e.g., cred:RACKSPACE_USERNAME)." +
+    " For OpenStack Swift the format is: 'tenantID:username'." +
+    " Example: cred:AWS_ACCESS_KEY_ID",
+  :required => "required",
+  :recipes => [
+    "logging_rsyslog::backup_logs",
+    "logging_rsyslog::backup_logs_schedule_enable"
+  ]
+
+attribute "logging_rsyslog/backup/storage_account_secret",
+  :display_name => "Rsyslog Backup Storage Account Secret",
+  :description =>
+    "In order to write the backup files to the specified cloud storage location," +
+    " you need to provide cloud authentication credentials." +
+    " For Amazon S3, use your AWS secret access key" +
+    " (e.g., cred:AWS_SECRET_ACCESS_KEY)." +
+    " For Rackspace Cloud Files, use your Rackspace account API key" +
+    " (e.g., cred:RACKSPACE_AUTH_KEY). Example: cred:AWS_SECRET_ACCESS_KEY",
+  :required => "required",
+  :recipes => [
+    "logging_rsyslog::backup_logs",
+    "logging_rsyslog::backup_logs_schedule_enable"
+  ]
+
+attribute "logging_rsyslog/backup/storage_account_endpoint",
+  :display_name => "Rsyslog Backup Storage Endpoint URL",
+  :description =>
+    "The endpoint URL for the storage cloud. This is used to override the" +
+    " default endpoint or for generic storage clouds such as Swift." +
+    " Example: http://endpoint_ip:5000/v2.0/tokens",
+  :required => "optional",
+  :default => "",
+  :recipes => [
+    "logging_rsyslog::backup_logs",
+    "logging_rsyslog::backup_logs_schedule_enable"
+  ]
+
+attribute "logging_rsyslog/backup/container",
+  :display_name => "Rsyslog Backup Container",
+  :description =>
+    "The cloud storage location where the backup files will be saved to." +
+    " For Amazon S3, use the bucket name." +
+    " For Rackspace Cloud Files, use the container name." +
+    " Example: syslog-backups",
+  :required => "required",
+  :recipes => [
+    "logging_rsyslog::backup_logs",
+    "logging_rsyslog::backup_logs_schedule_enable"
+  ]
