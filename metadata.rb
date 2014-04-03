@@ -32,7 +32,7 @@ attribute "logging_rsyslog",
 
 attribute "logging_rsyslog/allowed_senders",
   :display_name => "Allowed Rsyslog Senders",
-  :description =>  "TODO",
+  :description =>  "Leave this input undefined to allow any IP. Otherwise, specify a comma-separated list of IPs or CIDR ranges to accept syslog messages from. Ex: 10.0.0.0/8, 141.53.62.158",
   :required => "optional",
   :recipes => [ "logging_rsyslog::add_custom_templates" ]
 
