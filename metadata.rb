@@ -22,6 +22,9 @@ recipe "logging_rsyslog::add_custom_templates",
 
 recipe "logging_rsyslog::add_compress_logs_cronjob",
   "Add cronjob to compress files older than a day"
+  
+recipe "logging_rsyslog::backup_logs",
+  "Uploads the zipped logs to Remote Object Storage"
 
 attribute "logging_rsyslog",
   :display_name => "Rsyslog attributes",
