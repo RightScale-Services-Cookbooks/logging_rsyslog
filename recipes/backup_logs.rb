@@ -29,18 +29,28 @@ environment_variables = {
 }.merge(options)
 
 paths=`cd #{node[:logging_rsyslog][:logs_location]}; ls */*/*/* | grep '\.zip$'`.split(/\n/)
-paths.each { |path| 
-  log "*** Uploading '#{path}' to '#{cloud}' container '#{container}'" 
-  `/opt/rightscale/sandbox/bin/ros_util put --container #{container} --cloud #{cloud} --source #{path} --dest #{path}`
-   
-  # Delete the local file
-  #file dumpfilepath do
-  #  backup false
-  #  action :delete
-  #end
+
+paths.each { |path|
+  bash "*** Uploading '#{path}' to '#{cloud}' container '#{container}/syslog-backups/'" do
+    flags "-ex"
+    user "root"
+    cwd node[:logging_rsyslog][:logs_location]
+    environment environment_variables
+    code <<-EOH
+      /opt/rightscale/sandbox/bin/ros_util put --container #{container} --cloud #{cloud} --source #{path} --dest "syslog-backups/#{path}"
+    EOH
+  end
+
+  zip_folder=File.expand_path("..", "#{node[:logging_rsyslog][:logs_location]}/#{path}")
+  zip_file=File.basename("#{node[:logging_rsyslog][:logs_location]}/#{path}")
+
+  `echo "*** Uploaded '#{zip_file}' to Remote Object Storage: '#{container}/syslog-backups/#{path}'" >> #{zip_folder}/uploaded.txt`
+
+  # Delete the local file now
+  file "#{node[:logging_rsyslog][:logs_location]}/#{path}" do
+    backup false
+    action :delete
+  end
  }
 
-
-
 rightscale_marker :end
-
