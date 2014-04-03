@@ -25,6 +25,12 @@ recipe "logging_rsyslog::add_compress_logs_cronjob",
   
 recipe "logging_rsyslog::backup_logs",
   "Uploads the zipped logs to Remote Object Storage"
+  
+recipe "logging_rsyslog::backup_logs_schedule_enable",
+  "Creates a daily cronjob at 00:15am to run the 'logging_rsyslog::backup_logs' recipe"
+  
+recipe "logging_rsyslog::backup_logs_schedule_disable",
+  "Removes the daily backup_logs schedule"
 
 attribute "logging_rsyslog",
   :display_name => "Rsyslog attributes",
