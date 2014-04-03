@@ -9,7 +9,7 @@ template "/etc/cron.hourly/syslog-zip-logs" do
   source "syslog-zip-logs.erb"
   mode 0755
   variables(
-    :path => "/mnt/ephemeral/syslog"
+    :path => "#{node[:logging_rsyslog][:logs_location]}"
   )
 end
 
