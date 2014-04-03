@@ -17,7 +17,7 @@ template "/etc/rsyslog.d/20-custom-templates.conf" do
   source "rsyslog-custom-templates.erb"
   mode 0644  
   variables(
-    :path => "/mnt/ephemeral/syslog",
+    :path => "#{node[:logging_rsyslog][:logs_location]}",
     :allowed => "#{node[:logging_rsyslog][:allowed_senders]}"
   )
 end
