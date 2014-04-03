@@ -28,10 +28,17 @@ attribute "logging_rsyslog",
   :type => "hash"
 
 attribute "logging_rsyslog/allowed_senders",
-  :display_name => "Allowed rsyslog senders",
+  :display_name => "Allowed Rsyslog Senders",
   :description =>  "TODO",
   :required => "optional",
   :recipes => [ "logging_rsyslog::add_custom_templates" ]
+
+attribute "logging_rsyslog/logs_location",
+  :display_name => "Rsyslog Logs Path",
+  :description =>  "Absolute path where the logs will be stored. Ex: /mnt/ephemeral/syslog",
+  :required => "optional",
+  :default => "/mnt/ephemeral/syslog",
+  :recipes => [ "logging_rsyslog::add_custom_templates", "logging_rsyslog::add_compress_logs_cronjob", "logging_rsyslog::backup_logs" ]
 
 # == Backup attributes
 #
