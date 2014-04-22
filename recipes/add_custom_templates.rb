@@ -18,6 +18,12 @@ bash "Setting up the logs location" do
   code <<-EOH
     echo " *** Creating #{node[:logging_rsyslog][:logs_location]}"
     mkdir -p #{node[:logging_rsyslog][:logs_location]}
+    
+    #echo " *** running ps aux | grep syslog"
+    #ps aux | grep syslog
+
+    #echo " *** running ps aux | grep rsyslog | grep -v grep | tail -1"
+    #ps aux | grep rsyslog | grep -v grep | tail -1
   
     rsyslog_user=`ps aux | grep rsyslog | grep -v grep | tail -1 | awk '{print $1}' || true`
     if ! test "$rsyslog_user" = "" ; then
