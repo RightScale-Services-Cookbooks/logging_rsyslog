@@ -20,7 +20,7 @@ recipe "logging_rsyslog::setup_server",
 recipe "logging_rsyslog::add_custom_templates",
   "Add rsyslog templates to store the messages in a human friendly folder structure (year/month/day/hostname/*)"
 
-recipe "logging_rsyslog::add_compress_logs_cronjob",
+recipe "logging_rsyslog::zip_logs_schedule_enable",
   "Add cronjob to compress files older than a day"
   
 recipe "logging_rsyslog::backup_logs",
@@ -47,7 +47,7 @@ attribute "logging_rsyslog/logs_location",
   :description =>  "Absolute path where the logs will be stored. Ex: /mnt/ephemeral/syslog",
   :required => "optional",
   :default => "/mnt/ephemeral/syslog",
-  :recipes => [ "logging_rsyslog::add_custom_templates", "logging_rsyslog::add_compress_logs_cronjob", "logging_rsyslog::backup_logs" ]
+  :recipes => [ "logging_rsyslog::add_custom_templates", "logging_rsyslog::zip_logs_schedule_enable", "logging_rsyslog::backup_logs" ]
 
 # == Backup attributes
 #
