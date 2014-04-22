@@ -11,6 +11,22 @@ if (!node[:logging_rsyslog])
   node[:logging_rsyslog]={}
 end
 
+bash "Setting up the logs location" do
+  flags "-ex"
+  user "root"
+  cwd "/tmp"
+  code <<-EOH
+    echo " *** Creating #{node[:logging_rsyslog][:logs_location]}"
+    mkdir -p #{node[:logging_rsyslog][:logs_location]}
+  
+    rsyslog_user=`ps aux | grep rsyslog | grep -v grep | tail -1 | grep -Eo '^\w+'`
+    if ! test "$rsyslog_user" = "" ; then
+      echo " *** Setting owner for #{node[:logging_rsyslog][:logs_location]} to $rsyslog_user"
+      chown $rsyslog_user #{node[:logging_rsyslog][:logs_location]}
+    fi
+  EOH
+end
+
 
 # Deploy custom filters and restart service
 template "/etc/rsyslog.d/20-custom-templates.conf" do
