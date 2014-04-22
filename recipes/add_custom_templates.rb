@@ -19,7 +19,7 @@ bash "Setting up the logs location" do
     echo " *** Creating #{node[:logging_rsyslog][:logs_location]}"
     mkdir -p #{node[:logging_rsyslog][:logs_location]}
   
-    rsyslog_user=`ps aux | grep rsyslog | grep -v grep | tail -1 | grep -Eo '^\w+'`
+    rsyslog_user=`ps aux | grep rsyslog | grep -v grep | tail -1 | awk '{print $1}' || true`
     if ! test "$rsyslog_user" = "" ; then
       echo " *** Setting owner for #{node[:logging_rsyslog][:logs_location]} to $rsyslog_user"
       chown $rsyslog_user #{node[:logging_rsyslog][:logs_location]}
