@@ -3,7 +3,7 @@ $AllowedSender UDP, <%= @allowed %>
 $AllowedSender TCP, <%= @allowed %>
 
 <% end %>
-$template YearMonthDayHostnameProgramName,"/mnt/ephemeral/syslog/%$YEAR%/%$MONTH%/%$DAY%/%HOSTNAME%/%PROGRAMNAME%.log"
+$template YearMonthDayHostnameProgramName,"<%= @path %>/%$YEAR%/%$MONTH%/%$DAY%/%HOSTNAME%/%PROGRAMNAME%.log"
 
 *.* -?YearMonthDayHostnameProgramName
 & ~
