@@ -24,7 +24,7 @@ bash "Setting up the logs location" do
 
     if ! test "$rsyslog_pid" = "" ; then
       rsyslog_user=`ps h -p $rsyslog_pid -o user`
-      if ! test "$rsyslog_user" = "" ; then
+      if test "$rsyslog_user" = "" ; then
         rsyslog_user="root"
       fi
       echo " *** Setting owner for #{node[:logging_rsyslog][:logs_location]} to $rsyslog_user"
