@@ -18,15 +18,15 @@ bash "Setting up the logs location" do
   code <<-EOH
     echo " *** Creating #{node[:logging_rsyslog][:logs_location]}"
     mkdir -p #{node[:logging_rsyslog][:logs_location]}
-    
-    #echo " *** running ps aux | grep syslog"
-    #ps aux | grep syslog
 
-    #echo " *** running ps aux | grep rsyslog | grep -v grep | tail -1"
-    #ps aux | grep rsyslog | grep -v grep | tail -1
-  
-    rsyslog_user=`ps aux | grep rsyslog | grep -v grep | tail -1 | awk '{print $1}' || true`
-    if ! test "$rsyslog_user" = "" ; then
+    rsyslog_pid=`pgrep rsyslog || true`
+    echo " *** rsyslogd running with pid $rsyslog_pid"
+
+    if ! test "$rsyslog_pid" = "" ; then
+      rsyslog_user=`ps h -p $rsyslog_pid -o user`
+      if ! test "$rsyslog_user" = "" ; then
+        rsyslog_user="root"
+      fi
       echo " *** Setting owner for #{node[:logging_rsyslog][:logs_location]} to $rsyslog_user"
       chown $rsyslog_user #{node[:logging_rsyslog][:logs_location]}
     fi
