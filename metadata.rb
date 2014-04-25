@@ -21,13 +21,13 @@ recipe "logging_rsyslog::add_custom_templates",
   "Add rsyslog templates to store the messages in a human friendly folder structure (year/month/day/hostname/*)"
 
 recipe "logging_rsyslog::zip_logs_schedule_enable",
-  "Add cronjob to compress files older than a day"
+  "Creates a cronjob to compress logs at 00:15am"
   
 recipe "logging_rsyslog::backup_logs",
   "Uploads the zipped logs to Remote Object Storage"
   
 recipe "logging_rsyslog::backup_logs_schedule_enable",
-  "Creates a daily cronjob at 00:15am to run the 'logging_rsyslog::backup_logs' recipe"
+  "Creates a cronjob to run the 'logging_rsyslog::backup_logs' recipe at 00:45am"
   
 recipe "logging_rsyslog::backup_logs_schedule_disable",
   "Removes the daily backup_logs schedule"
